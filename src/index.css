@@ -5,63 +5,33 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.625rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+    --radius: 0.375rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
@@ -70,6 +40,244 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
   }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Editor & Code Styles */
+.editor-textarea {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  tab-size: 2;
+  caret-color: #3b82f6;
+}
+
+/* Markdown Preview Styles - Light Theme */
+.markdown-preview h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.markdown-preview h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  margin-top: 1.25rem;
+  color: #0f172a;
+}
+
+.markdown-preview h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  color: #1e293b;
+}
+
+.markdown-preview p {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+  color: #334155;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.markdown-preview li {
+  margin-bottom: 0.25rem;
+  color: #334155;
+}
+
+.markdown-preview blockquote {
+  border-left: 3px solid #3b82f6;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #64748b;
+  font-style: italic;
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.markdown-preview code {
+  background: #f1f5f9;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  color: #db2777;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.markdown-preview pre {
+  background: #0f172a;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdown-preview pre code {
+  background: transparent;
+  padding: 0;
+  color: #e2e8f0;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.markdown-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.markdown-preview th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.markdown-preview td {
+  color: #334155;
+}
+
+.markdown-preview tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.markdown-preview hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1.5rem 0;
+}
+
+.markdown-preview a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.markdown-preview a:hover {
+  text-decoration: underline;
+}
+
+.markdown-preview strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Highlight.js overrides */
+.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* JSON tree styles - Dark text on light background */
+.json-preview .key {
+  color: #1d4ed8;
+}
+.json-preview .string {
+  color: #15803d;
+}
+.json-preview .number {
+  color: #dc2626;
+}
+.json-preview .boolean {
+  color: #b45309;
+}
+.json-preview .null {
+  color: #db2777;
+}
+.json-preview .punctuation {
+  color: #64748b;
+}
+
+/* Split pane */
+.split-pane {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.split-divider {
+  width: 4px;
+  background: #e2e8f0;
+  cursor: col-resize;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.split-divider:hover,
+.split-divider.dragging {
+  background: #3b82f6;
+}
+
+/* Line numbers */
+.line-numbers {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #94a3b8;
+  text-align: right;
+  padding-right: 12px;
+  user-select: none;
+}
+
+/* SQL Preview - Dark text on light background */
+.sql-preview .keyword {
+  color: #7c3aed;
+  font-weight: 600;
+}
+.sql-preview .function {
+  color: #2563eb;
+}
+.sql-preview .string {
+  color: #15803d;
+}
+.sql-preview .number {
+  color: #dc2626;
+}
+.sql-preview .comment {
+  color: #94a3b8;
+  font-style: italic;
+}
+.sql-preview .identifier {
+  color: #0f172a;
+}
+.sql-preview .operator {
+  color: #db2777;
 }
