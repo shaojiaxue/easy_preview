@@ -392,33 +392,44 @@ body { margin: 0; padding: 16px; font-family: system-ui, sans-serif; background:
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-white">
       {/* Header */}
-      <header className="h-12 flex items-center px-4 border-b border-[#e2e8f0] bg-white shrink-0">
+      <header className="h-14 flex items-center px-5 border-b border-[#e2e8f0] bg-white shrink-0 select-none">
         {/* Logo */}
-        <div className="flex items-center gap-2 mr-8">
-          <div className="w-7 h-7 bg-emerald-500 rounded-md flex items-center justify-center text-white font-bold text-sm">
-            E
+        <div className="flex items-center gap-2.5 mr-6 shrink-0">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-base
+                          shadow-sm" style={{ background: 'linear-gradient(135deg, #10b981 0%, #0ea5e9 100%)' }}>
+            <BookOpen size={17} strokeWidth={2.5} />
           </div>
-          <span className="text-[#0f172a] font-semibold text-[15px] tracking-tight">
-            Easy Preview
-          </span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-[#0f172a] font-bold text-[15px] tracking-tight">
+              Easy Preview
+            </span>
+            <span className="text-[10px] text-[#94a3b8] font-medium tracking-wide uppercase">
+              Code Preview Tool
+            </span>
+          </div>
         </div>
 
-        {/* Tabs */}
-        <nav className="flex items-center gap-1">
+        {/* Divider */}
+        <div className="w-px h-7 bg-[#e2e8f0] mr-5 shrink-0" />
+
+        {/* Tabs - Segmented Control Style */}
+        <nav className="flex items-center bg-[#f1f5f9] rounded-lg p-0.5 gap-0.5">
           {TAB_CONFIGS.map((tab) => (
             <button
               key={tab.id}
               onClick={() => handleTabSwitch(tab.id)}
               className={`
-                flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13px] font-medium
-                transition-all duration-150 cursor-pointer
+                flex items-center gap-1.5 px-4 py-[7px] rounded-md text-[13px] font-medium
+                transition-all duration-200 cursor-pointer border border-transparent
                 ${activeTab === tab.id
-                  ? 'bg-[#3b82f6] text-white'
-                  : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f1f5f9]'
+                  ? 'bg-white text-[#0f172a] shadow-sm border-[#e2e8f0]'
+                  : 'text-[#64748b] hover:text-[#334155] hover:bg-white/60 border-transparent'
                 }
               `}
             >
-              {TAB_ICONS[tab.icon]}
+              <span className={activeTab === tab.id ? 'text-[#3b82f6]' : 'text-[#94a3b8]'}>
+                {TAB_ICONS[tab.icon]}
+              </span>
               {tab.label}
             </button>
           ))}
