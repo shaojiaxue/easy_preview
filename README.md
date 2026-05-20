@@ -16,7 +16,7 @@
 
 ## 在线预览
 
-部署后访问：`https://shaojiaxue.github.io/easy_preview`
+部署后访问：[页面体验地址](https://shaojiaxue.github.io/easy_preview)
 
 ## 技术栈
 
