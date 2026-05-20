@@ -9,7 +9,9 @@ import {
   Trash2,
   Eye,
   GripVertical,
+  Download,
 } from 'lucide-react';
+import html2pdf from 'html2pdf.js';
 import type { TabType } from './types';
 import { TAB_CONFIGS, DEMO_CONTENT } from './types';
 
@@ -300,6 +302,38 @@ function App() {
     };
   }, [isDragging]);
 
+  // ---------- PDF Download ----------
+  const markdownRef = useRef<HTMLDivElement>(null);
+  const htmlRef = useRef<HTMLIFrameElement>(null);
+
+  const downloadPdf = useCallback(() => {
+    let element: HTMLElement | null = null;
+    let filename = 'preview.pdf';
+
+    if (activeTab === 'markdown') {
+      element = markdownRef.current;
+      filename = 'markdown-preview.pdf';
+    } else if (activeTab === 'html') {
+      const iframe = htmlRef.current;
+      if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
+        element = iframe.contentDocument.body;
+        filename = 'html-preview.pdf';
+      }
+    }
+
+    if (!element) return;
+
+    const opt = {
+      margin: [10, 10, 10, 10] as [number, number, number, number],
+      filename,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  }, [activeTab]);
+
   // Render preview based on active tab
   const renderPreview = () => {
     switch (activeTab) {
@@ -307,6 +341,7 @@ function App() {
         const html = marked.parse(previewContent) as string;
         return (
           <div
+            ref={markdownRef}
             className="markdown-preview p-6 overflow-auto h-full"
             dangerouslySetInnerHTML={{ __html: html }}
           />
@@ -315,6 +350,7 @@ function App() {
       case 'html': {
         return (
           <iframe
+            ref={htmlRef}
             srcDoc={`<!DOCTYPE html>
 <html>
 <head>
@@ -462,7 +498,7 @@ body { margin: 0; padding: 16px; font-family: system-ui, sans-serif; background:
           style={{ width: `${100 - leftWidth}%` }}
         >
           {/* Preview Header */}
-          <div className="h-9 flex items-center px-3 bg-white border-b border-[#e2e8f0] shrink-0">
+          <div className="h-9 flex items-center justify-between px-3 bg-white border-b border-[#e2e8f0] shrink-0">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#22c55e]" />
               <Eye size={13} className="text-[#94a3b8]" />
@@ -470,6 +506,17 @@ body { margin: 0; padding: 16px; font-family: system-ui, sans-serif; background:
                 预览
               </span>
             </div>
+            {(activeTab === 'markdown' || activeTab === 'html') && (
+              <button
+                onClick={downloadPdf}
+                className="flex items-center gap-1 px-2.5 py-1 rounded text-[12px] text-[#64748b]
+                           hover:text-[#2563eb] hover:bg-[#eff6ff] transition-all cursor-pointer"
+                title="下载 PDF"
+              >
+                <Download size={13} />
+                PDF
+              </button>
+            )}
           </div>
 
           {/* Preview Content */}
