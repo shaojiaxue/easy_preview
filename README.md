@@ -1,74 +1,105 @@
-# React + TypeScript + Vite
+# Easy Preview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个简洁高效的多格式实时预览工具，支持 **Markdown**、**HTML**、**JSON**、**SQL** 四种格式的编辑与预览。
 
-Currently, two official plugins are available:
+![GitHub Pages](https://github.com/shaojiaxue/easy_preview/actions/workflows/deploy.yml/badge.svg)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-- 
+## 功能特性
 
-## React Compiler
+- **Markdown 预览** — 实时渲染 Markdown 为 HTML，支持标题、列表、代码块、表格、引用等完整语法
+- **HTML 预览** — 通过沙箱 iframe 安全渲染，支持内联样式和交互
+- **JSON 预览** — 自动格式化并语法高亮（键名蓝色、字符串绿色、数字红色、布尔值黄色）
+- **SQL 预览** — 关键字紫色高亮、函数蓝色、字符串绿色、注释灰色
+- **左右分栏布局** — 中间可拖拽调整宽度
+- **快捷键支持** — `Ctrl + Enter` 快速预览
+- **白色主题** — 清新明亮的界面设计
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 在线预览
 
-## Expanding the ESLint configuration
+部署后访问：`https://shaojiaxue.github.io/easy_preview`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 技术栈
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19 + TypeScript + Vite
+- Tailwind CSS + shadcn/ui
+- marked（Markdown 解析）
+- lucide-react（图标）
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 本地构建
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 环境要求
+
+- [Node.js](https://nodejs.org/) 18+
+
+### 构建步骤
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/shaojiaxue/easy_preview.git
+cd easy_preview
+
+# 2. 安装依赖
+npm install
+
+# 3. 启动开发服务器（支持热更新）
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+开发服务器启动后，浏览器访问 `http://localhost:5173` 即可使用。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 生产构建
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# 构建生产版本
+npm run build
 ```
+
+构建产物输出到 `dist/` 目录：
+
+```
+dist/
+├── index.html          # 入口文件
+└── assets/
+    ├── index-xxx.css   # 样式文件
+    └── index-xxx.js    # 脚本文件
+```
+
+直接用浏览器打开 `dist/index.html` 即可查看：
+
+```bash
+# Mac
+open dist/index.html
+
+# Linux
+xdg-open dist/index.html
+
+# Windows
+start dist/index.html
+```
+
+## 部署
+
+### GitHub Pages 自动部署
+
+本项目已配置 GitHub Actions 自动部署工作流（`.github/workflows/deploy.yml`）。
+
+每次推送代码到 `main` 分支时，会自动构建并部署到 GitHub Pages。
+
+手动触发方式：
+1. 进入仓库 **Actions** 标签页
+2. 选择 **Deploy to GitHub Pages**
+3. 点击 **Run workflow**
+
+### 其他部署方式
+
+`dist/` 文件夹中的文件是纯静态资源，可以部署到任何静态托管服务：
+
+- [Nginx](https://nginx.org/)
+- [Caddy](https://caddyserver.com/)
+- [Cloudflare Pages](https://pages.cloudflare.com/)
+- [Vercel](https://vercel.com/)
+- [Netlify](https://www.netlify.com/)
+
+## 许可证
+
+MIT
