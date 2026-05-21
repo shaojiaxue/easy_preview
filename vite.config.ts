@@ -15,4 +15,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          pdf: ['html2pdf.js'],
+          vendor: ['react', 'react-dom', 'marked'],
+        },
+      },
+    },
+  },
 });
