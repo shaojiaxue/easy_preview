@@ -253,22 +253,44 @@ function App() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [lineNumbers, setLineNumbers] = useState(getLineNumbers(DEMO_CONTENT.markdown));
 
-  // Chrome Extension: Load selected text from storage
+  // Chrome Extension: Load data from URL hash (right-click menu) or storage
   useEffect(() => {
-    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
-      chrome.storage.local.get(['selectedText', 'selectedFormat'], (result: { selectedText?: string; selectedFormat?: string }) => {
-        if (result.selectedText) {
-          const text = result.selectedText;
-          const format = result.selectedFormat === 'auto'
-            ? autoDetectFormat(text)
-            : (result.selectedFormat as TabType) || 'markdown';
+    // Priority 1: URL hash (from right-click menu via background.js)
+    const hash = window.location.hash.slice(1); // remove leading #
+    if (hash) {
+      const params = new URLSearchParams(hash);
+      const text = params.get('text');
+      const format = params.get('format');
+      if (text) {
+        const decodedText = decodeURIComponent(text);
+        const detectedFormat = format === 'auto'
+          ? autoDetectFormat(decodedText)
+          : (format as TabType) || 'markdown';
 
-          setActiveTab(format);
+        setActiveTab(detectedFormat);
+        setEditorContent(decodedText);
+        setPreviewContent(decodedText);
+        setLineNumbers(getLineNumbers(decodedText));
+
+        // Clear hash to avoid re-loading on refresh
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        return;
+      }
+    }
+
+    // Priority 2: Storage (fallback for other extension flows)
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.get(['selectedText', 'selectedFormat'], (result: Record<string, unknown>) => {
+        const text = result.selectedText as string | undefined;
+        const format = result.selectedFormat as string | undefined;
+        if (text) {
+          const detectedFormat = format === 'auto'
+            ? autoDetectFormat(text)
+            : (format as TabType) || 'markdown';
+          setActiveTab(detectedFormat);
           setEditorContent(text);
           setPreviewContent(text);
           setLineNumbers(getLineNumbers(text));
-
-          // Clear storage after loading
           chrome.storage.local.remove(['selectedText', 'selectedFormat']);
         }
       });
