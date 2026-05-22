@@ -225,6 +225,23 @@ function getLineNumbers(text: string): string {
   return Array.from({ length: lines }, (_, i) => i + 1).join('\n');
 }
 
+// ---------- Auto format detection ----------
+function autoDetectFormat(text: string): TabType {
+  const trimmed = text.trim();
+  if (trimmed.startsWith('<') && trimmed.includes('</')) {
+    return 'html';
+  }
+  if ((trimmed.startsWith('{') && trimmed.endsWith('}')) ||
+      (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
+    try { JSON.parse(trimmed); return 'json'; } catch {}
+  }
+  const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP', 'ALTER'];
+  if (sqlKeywords.some(k => trimmed.toUpperCase().startsWith(k))) {
+    return 'sql';
+  }
+  return 'markdown';
+}
+
 // ---------- Main App ----------
 function App() {
   const [activeTab, setActiveTab] = useState<TabType>('markdown');
@@ -235,6 +252,28 @@ function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [lineNumbers, setLineNumbers] = useState(getLineNumbers(DEMO_CONTENT.markdown));
+
+  // Chrome Extension: Load selected text from storage
+  useEffect(() => {
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.get(['selectedText', 'selectedFormat'], (result: { selectedText?: string; selectedFormat?: string }) => {
+        if (result.selectedText) {
+          const text = result.selectedText;
+          const format = result.selectedFormat === 'auto'
+            ? autoDetectFormat(text)
+            : (result.selectedFormat as TabType) || 'markdown';
+
+          setActiveTab(format);
+          setEditorContent(text);
+          setPreviewContent(text);
+          setLineNumbers(getLineNumbers(text));
+
+          // Clear storage after loading
+          chrome.storage.local.remove(['selectedText', 'selectedFormat']);
+        }
+      });
+    }
+  }, []);
 
   // Handle tab switch
   const handleTabSwitch = useCallback((tab: TabType) => {
@@ -404,7 +443,7 @@ body { margin: 0; padding: 16px; font-family: system-ui, sans-serif; background:
               Easy Preview
             </span>
             <span className="text-[10px] text-[#94a3b8] font-medium tracking-wide uppercase">
-              Code Preview Tool
+              Code Preview
             </span>
           </div>
         </div>
